@@ -20,7 +20,7 @@ SRC_ASM = ft_isalpha
 
 ASM_DIR		= asm
 
-SRC = 	$(addprefix $(ASM_DIR)/, $(addsuffix .c, $(SRC_ASM))) \
+SRC = 	$(addprefix $(ASM_DIR)/, $(addsuffix .s, $(SRC_ASM))) \
 
 TMP = $(basename $(notdir $(SRC)))
 OBJ = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(TMP)))
@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/$(ASM_DIR)/%.s
-	$(CC_ASM) $(ASMFLAGS) -o $@ $<
+	$(CC_ASM) $(ASM_FLAGS) -o $@ $<
 
 clean:
 	rm -vf $(OBJ)
@@ -45,8 +45,9 @@ fclean:
 
 re: fclean all
 
-test: $(NAME) test.c $(OBJ)
-	gcc test.c -L. -lfts -o test
+test:
+	gcc -c test.c 
+	gcc test.o -o test
 #ld hello_world.o -macosx_version_min 10.8 -lSystem && ./a.out
 help:
 	@echo
