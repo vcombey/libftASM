@@ -1,22 +1,20 @@
 global _ft_isalpha
 
 _ft_isalpha:
-;mov rax, rdi
-	cmp rdi, 97
+	cmp edi, 97
 	jge greater
+	cmp edi, 65
+	jge upper
 	mov rax, 0
 	ret
 greater:
-	cmp rdi, 122
+	cmp edi, 122
+	jle lower
+upper:	
+	cmp edi, 90
 	jle lower
 	mov rax, 0
 	ret
 lower:
 	mov rax, 1
 	ret
-		
-;	push	rbp
-;   mov     rbp, rsp
-;sub		rsp, 16
-;leave
-;ret 

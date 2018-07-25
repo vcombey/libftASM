@@ -16,7 +16,7 @@ else
 	ASMFLAGS = -f macho64
 endif
 
-SRC_ASM = ft_isalpha
+SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum
 
 ASM_DIR		= asm
 
