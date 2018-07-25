@@ -1,0 +1,3 @@
+
+%define SYS_CALL 0x200000
+%define SYS_WRITE SYS_CALL 4 | SYS_CALL

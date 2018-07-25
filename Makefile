@@ -4,19 +4,19 @@ CC_ASM = nasm
 
 LIBDIR	= ./
 SRCDIR	= srcs
-INCDIR	= includes
+INCDIR	= ./includes/
 OBJDIR	= objs
 HEADER	= libft.h btree.h
 
 ifeq ($(DEBUG),yes)
 	CFLAGS = -std=c99 -fPIC -Wextra -Wall -Werror -g -O0 -fsanitize=address -I./$(INCDIR)
-	ASMFLAGS = -f macho64
+	ASMFLAGS = -f macho64 -i $(INCDIR)
 else
 	CFLAGS = -Ofast -std=c99 -fPIC -Wextra -Wall -Werror -I./$(INCDIR)
-	ASMFLAGS = -f macho64
+	ASMFLAGS = -f macho64 -i $(INCDIR)
 endif
 
-SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum
+SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset
 
 ASM_DIR		= asm
 

@@ -1,13 +1,13 @@
-global _ft_isdigit
+global _ft_isascii
 
-_ft_isdigit:
-	cmp edi, 48
+_ft_isascii:
+	cmp edi, 0
 	jge .greater
 	mov rax, 0
 	ret
 
 	.greater:
-	cmp edi, 57
+	cmp edi, 127
 	jle .lower
 	mov rax, 0
 	ret
