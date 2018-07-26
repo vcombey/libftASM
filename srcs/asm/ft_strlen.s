@@ -1,10 +1,16 @@
 global _ft_strlen
-
+section .text
 _ft_strlen:
-	xor al, al
+	xor rax, rax
+	xor rcx, rcx
+	not rcx
 	mov r8, rdi ; save pointer
-	repne scasb
+	;mov rsi, rdi ; save pointer
+	cld
+	repnz scasb
 	sub rdi, r8 ; substract from saved pointer
-	sub rdi, 1
 	mov rax, rdi
+	;mov rax, rdi
+	;sub rax, r8
+	dec rax
 	ret

@@ -87,6 +87,4 @@ int main() {
 	printf("%zu\n", ft_strlen("l"));
 	printf("%zu\n", ft_strlen("la"));
 	printf("%zu\n", ft_strlen("lal"));
-	//char *s1 = strdup("abc");
-	//printf("%s\n", ft_strcat(s1, "def"));
 }

@@ -29,10 +29,9 @@ int	ft_toupper(int);
 int	ft_tolower(int);
 int	ft_id(int);
 int	ft_puts(const char *s);
-
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
-size_t	ft_strlen(const char *s);
+size_t ft_strlen(const char *s);
 
 typedef struct			s_unit_test
 {
@@ -138,18 +137,164 @@ int	test_ft_is(int (*ft_is) (int), int (*is) (int))
 	return (0);
 }
 
-int	test_ft_is_alpha()
+#define mt_test_is(test_name) \
+	int test_ ##test_name() { \
+		return (test_ft_is(ft_ ##test_name, test_name)); \
+	}
+
+mt_test_is(isalpha)
+mt_test_is(isalnum)
+mt_test_is(isascii)
+mt_test_is(isprint)
+mt_test_is(toupper)
+mt_test_is(isdigit)
+mt_test_is(tolower)
+
+int	test_strdup()
 {
-	return (test_ft_is(ft_isalpha, isalpha));
+	char *s1 = strdup("abc");
+	printf("%s\n", strcat(s1, "defasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
+	return (0);
 }
 
-t_unit_test	*load_ft_is_alpha_test()
+t_unit_test	*load_isalpha()
 {
-	t_unit_test	*testlist;
+	t_unit_test	*testlist = NULL;
 
-	testlist = NULL;
-	printf("is_alpha:\n");
-	load_test(&testlist, "test_all_char", &test_ft_is_alpha);
+	load_test(&testlist, "isalpha", &test_isalpha);
+	return (testlist);
+}
+
+t_unit_test	*load_isdigit()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "isdigit", &test_isdigit);
+	return (testlist);
+}
+t_unit_test	*load_isalnum()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "isalnum", &test_isalnum);
+	return (testlist);
+}
+
+t_unit_test	*load_isascii()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "isascii", &test_isascii);
+	return (testlist);
+}
+
+t_unit_test	*load_isprint()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "isprint", &test_isprint);
+	return (testlist);
+}
+
+t_unit_test	*load_toupper()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "toupper", &test_toupper);
+	return (testlist);
+}
+
+t_unit_test	*load_tolower()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "tolower", &test_tolower);
+	return (testlist);
+}
+
+t_unit_test	*load_strdup()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "strdup", &test_strdup);
+	return (testlist);
+}
+
+#define mt_test_strlen(test_name, tested_str) \
+        int test_name() \
+        {\
+			printf("ptr: %p\n", tested_str);\
+			printf("ft_strlen: %zu, strlen: %zu", ft_strlen(tested_str), strlen(tested_str)); \
+			if (ft_strlen(tested_str) != strlen(tested_str))\
+				return 1;\
+			return 0;\
+        }
+
+mt_test_strlen(test_strlen_1, "chat");
+mt_test_strlen(test_strlen_2, "");
+mt_test_strlen(test_strlen_3, "aaa\0aaa");
+
+static int test_10_million_chars_string()
+{
+        int test_len = 10 * 10;
+        char str[test_len];
+		size_t len;
+
+        memset(str, 'a', test_len);
+        str[test_len - 1] = '\0';
+		if ((len = ft_strlen(str)) != strlen(str))
+		{
+			printf("ft_strlen: %zu, strlen: %zu", len, strlen(str));
+			return 1;
+		}
+		return 0;
+}
+
+t_unit_test	*load_strlen()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "test_10_million_chars_string", &test_10_million_chars_string);
+	load_test(&testlist, "test_1", test_strlen_1);
+	load_test(&testlist, "test_2", &test_strlen_2);
+	load_test(&testlist, "test_3", &test_strlen_3);
+	return (testlist);
+}
+
+int		test_memset()
+{
+	return (memcmp(ft_memset(strdup("abcd"), 'z', 5), memset(strdup("abcd"), 'z', 5), 5));
+}
+
+int		test_memset_2()
+{
+	return (memcmp(ft_memset(strdup("abcd"), 0, 0), memset(strdup("abcd"), 0, 0), 5));
+}
+
+int		test_memset_3()
+{
+		char    b1[100], b2[100];
+
+	ft_memset(b1, 42, 100);
+	memset(b2, 42, 100);
+	if (memset(b1, 99, 0) != ft_memset(b1, 99, 0))
+		return 1;
+	if (memcmp(b1, b2, 100) != 0)
+		return 1;
+	b1[0] = 1;
+	ft_memset(b1, 0, 0);
+	if (b1[0] != 1)
+		return 1;
+	return 0;
+}
+
+t_unit_test	*load_memset()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "memset_1", &test_memset);
+	load_test(&testlist, "memset_2", &test_memset_2);
+	load_test(&testlist, "memset_3", &test_memset_3);
 	return (testlist);
 }
 
@@ -172,7 +317,15 @@ int		main(void)
 
 	count = 0;
 	printf("---\n\n************************************\n**        libftASM test        **\n************************************\n");
-	count += launch_test_suite(load_ft_is_alpha_test);
-	printf("%zu / 1 suite tests passed\n", count);
-
+	count += launch_test_suite(load_strdup);
+	count += launch_test_suite(load_isalpha);
+	count += launch_test_suite(load_isdigit);
+	count += launch_test_suite(load_isalnum);
+	count += launch_test_suite(load_isascii);
+	count += launch_test_suite(load_isprint);
+	count += launch_test_suite(load_toupper);
+	count += launch_test_suite(load_tolower);
+	count += launch_test_suite(load_memset);
+	count += launch_test_suite(load_strlen);
+	//test_10_million_chars_string();
 }

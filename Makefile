@@ -46,8 +46,8 @@ fclean:
 
 re: fclean all
 
-test: $(NAME) test.c $(OBJ)
-	gcc test.c -L. -lfts -o test
+test: $(NAME) main.c $(OBJ)
+	gcc -std=c99 -O0 -Wall -Wall -Wextra -fsanitize=address main.c libfts.a && ./a.out
 #ld hello_world.o -macosx_version_min 10.8 -lSystem && ./a.out
 help:
 	@echo
