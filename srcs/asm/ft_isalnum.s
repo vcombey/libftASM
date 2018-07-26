@@ -4,7 +4,7 @@ extern _ft_isalpha
 
 _ft_isalnum:
 	call _ft_isdigit
-	mov ebx, eax
+	mov ecx, eax
 	call _ft_isalpha
-	or eax, ebx
+	or eax, ecx
 	ret

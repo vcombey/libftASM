@@ -15,7 +15,8 @@ int	ft_id(int);
 int	ft_puts(const char *s);
 
 void	ft_bzero(void *s, size_t n);
-void	ft_memset(void *s, int c, size_t len);
+void	*ft_memset(void *s, int c, size_t len);
+size_t	ft_strlen(const char *s);
 
 void	test_ft_is(int (*ft_is) (int), int (*is) (int))
 {
@@ -70,13 +71,22 @@ int main() {
 	 * printf("%c\n", ft_toupper('a'));
 	 */
 	char *abc = strdup("abcdef");
-	//ft_puts("abcdef");
+	ft_puts("abcdef");
 	printf("%s\n", abc);
 	ft_memset(abc, 'z', 5);
+	ft_memset(abc, 0, 0);
+	assert(abc[0] == 'z');
 	printf("%s\n", abc);
 	//printf("%d\n", ft_puts("abcdef"));
 	ft_bzero(abc, 5);
 	assert(memcmp(abc, "\0\0\0\0\0f", 6) == 0);
 	printf("%c\n", *abc);
 	printf("%p\n", abc);
+	assert(memcmp(memset(strdup("abcd"), 'A', 5), ft_memset(strdup("abcd"), 'A', 5), 5) == 0);
+	printf("%zu\n", ft_strlen(abc));
+	printf("%zu\n", ft_strlen("l"));
+	printf("%zu\n", ft_strlen("la"));
+	printf("%zu\n", ft_strlen("lal"));
+	//char *s1 = strdup("abc");
+	//printf("%s\n", ft_strcat(s1, "def"));
 }

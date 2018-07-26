@@ -5,11 +5,15 @@
 %define STDOUT_FILENO 0x1
 
 global _ft_puts
+extern _ft_strlen
 
 _ft_puts:
+	push rdi
+	call _ft_strlen
+	pop rdi
+	mov rdx, rax
 	mov rax, SYS_WRITE
 	mov rsi, rdi
 	mov rdi, STDOUT_FILENO
-	mov rdx, 5
 	syscall
 	ret

@@ -16,7 +16,7 @@ else
 	ASMFLAGS = -f macho64 -i $(INCDIR)
 endif
 
-SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset
+SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset ft_strcat ft_memcpy ft_strlen ft_strdup ft_cat
 
 ASM_DIR		= asm
 
@@ -34,10 +34,11 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/$(ASM_DIR)/%.s
+	@mkdir -p objs
 	$(CC_ASM) $(ASMFLAGS) -o $@ $<
 
 clean:
-	rm -vf $(OBJ)
+	rm -r $(OBJDIR)
 
 fclean:
 	rm -vf $(OBJ)
