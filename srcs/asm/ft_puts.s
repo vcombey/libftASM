@@ -7,6 +7,7 @@
 global _ft_puts
 extern _ft_strlen
 
+lala
 _ft_puts:
 	push rdi
 	call _ft_strlen
