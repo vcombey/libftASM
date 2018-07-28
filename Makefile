@@ -47,7 +47,7 @@ fclean:
 re: fclean all
 
 test: $(NAME) main.c $(OBJ)
-	gcc -std=c99 -O0 -g  -Wall -Wall -Wextra  main.c libfts.a && ./a.out
+	$(CC) $(CFLAGS)  main.c libfts.a && ./a.out
 #ld hello_world.o -macosx_version_min 10.8 -lSystem && ./a.out
 help:
 	@echo

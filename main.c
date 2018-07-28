@@ -379,9 +379,9 @@ int		main(void)
 	//count += launch_test_suite(load_strlen);
 	//test_10_million_chars_string();
 	test_strlen_unalign_long_1();
-	test_strlen_unalign_long_2();
-	test_strlen_unalign_long_3();
-	test_strlen_unalign_long_4();
-	test_strlen_unalign_long_5();
-	test_strlen_unalign_long_6();
+	//test_strlen_unalign_long_2();
+	//test_strlen_unalign_long_3();
+	//test_strlen_unalign_long_4();
+	//test_strlen_unalign_long_5();
+	//test_strlen_unalign_long_6();
 }
