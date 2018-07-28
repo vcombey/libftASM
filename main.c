@@ -292,11 +292,13 @@ mt_test_strlen_unalign(test_strlen_unalign_6, 6);
 #define mt_test_strlen_unalign_long(test_name, offset) \
         int test_name() \
         {\
-			char *abc = strdup("abcdefghijklmnopqrstuvwxyz");\
+			char *abc = strdup("1234567812345");\
 			char *tested_str = abc + offset;\
 			printf("ptr: %p\n", tested_str);\
-			printf("ft_strlen: %zu, strlen: %zu", ft_strlen(tested_str), strlen(tested_str)); \
-			if (ft_strlen(tested_str) != strlen(tested_str))\
+			printf("str: %s\n", tested_str);\
+			size_t len = ft_strlen(tested_str);\
+			printf("ft_strlen: %zu, strlen: %zu", len, strlen(tested_str)); \
+			if (len != strlen(tested_str))\
 				return 1;\
 			return 0;\
         }
@@ -374,7 +376,12 @@ int		main(void)
 	//count += launch_test_suite(load_toupper);
 	//count += launch_test_suite(load_tolower);
 	//count += launch_test_suite(load_memset);
-	count += launch_test_suite(load_strlen);
+	//count += launch_test_suite(load_strlen);
 	//test_10_million_chars_string();
-	test_strlen_unalign_1();
+	test_strlen_unalign_long_1();
+	test_strlen_unalign_long_2();
+	test_strlen_unalign_long_3();
+	test_strlen_unalign_long_4();
+	test_strlen_unalign_long_5();
+	test_strlen_unalign_long_6();
 }
