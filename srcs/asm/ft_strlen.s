@@ -1,8 +1,4 @@
 global _ft_strlen
-section .data
-bitwise:
-.low	dq 0x0101010101010101 
-.high	dq 0x8080808080808080
 
 section .text
 _ft_strlen:
@@ -22,9 +18,11 @@ _ft_strlen:
 .loop:
 	mov r9, qword [rdi]
 	mov r10, r9
-	sub r9, qword [rel bitwise.low]
+	mov r11, 0x0101010101010101
+	sub r9, r11
 	not r10
-	and r10, qword [rel  bitwise.high]
+	mov r11, 0x8080808080808080
+	and r10, r11
 	and r9, r10
 	cmp r9, 0x0
 	jg .find_zero_among_8
