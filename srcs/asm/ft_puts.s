@@ -7,14 +7,21 @@
 global _ft_puts
 extern _ft_strlen
 
-lala
+section .data
+newline: db 0xa
+
+section .text
 _ft_puts:
-	push rdi
-	call _ft_strlen
-	pop rdi
-	mov rdx, rax
-	mov rax, SYS_WRITE
-	mov rsi, rdi
-	mov rdi, STDOUT_FILENO
-	syscall
-	ret
+		push rdi
+		call _ft_strlen
+		mov rdi, STDOUT_FILENO
+		pop rsi
+		mov rdx, rax
+		mov rax, SYS_WRITE
+		syscall
+		mov rdi, STDOUT_FILENO
+		lea rsi, [rel newline]
+		mov rdx, 1
+		mov rax, SYS_WRITE
+		syscall
+		ret

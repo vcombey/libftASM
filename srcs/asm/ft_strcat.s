@@ -2,21 +2,17 @@
 
 global _ft_strcat
 extern _ft_strlen
-extern _ft_memcpy
+extern _ft_strcpy
 
 _ft_strcat:
-		push rsi
 		push rdi
+		push rdi
+		push rsi
 		call _ft_strlen
 		pop rsi
-		add rsi, rax
 		pop rdi
-		push rsi
-		push rdi
-		call _ft_strlen
-		inc rax
-		mov rcx, rax
-		pop rsi
+		add rdi, rax
+		call _ft_strcpy
 		pop rdi
-		call _ft_memcpy	
+		mov rax, rdi
 		ret

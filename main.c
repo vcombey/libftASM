@@ -311,7 +311,7 @@ static int test_10_million_chars_string()
 		return 0;
 }
 
-static int unittest1()
+static int test_memcpy()
 {
 	char	b1[100], b2[100];
 
@@ -330,7 +330,7 @@ t_unit_test	*load_memcpy()
 {
 	t_unit_test	*testlist = NULL;
 
-	load_test(&testlist, "unittest1", &unittest1);
+	load_test(&testlist, "test_memcpy", &test_memcpy);
 	return (testlist);
 }
 
@@ -359,17 +359,18 @@ t_unit_test	*load_strlen()
 
 static int test_strcat()
 {
-	char	buf[9];
+	char	buf[9] = "";
 
+//	printf("str: |%s|, ptr: %p\n", buf, buf);
 	bzero(buf, 9);
-	ft_strcat(buf, "");
-	printf("str: |%s|\n", buf);
+	//ft_strcat(buf, "");
+//	printf("str: |%s|\n", buf);
 	ft_strcat(buf, "Bon");
-	printf("str: |%s|\n", buf);
+//	printf("str: |%s|\n", buf);
 	ft_strcat(buf, "j");
-	printf("str: |%s|\n", buf);
+//	printf("str: |%s|\n", buf);
 	ft_strcat(buf, "our.");
-	printf("str: |%s|\n", buf);
+//	printf("str: |%s|\n", buf);
 	ft_strcat(buf, "");
 	printf("str: |%s|\n", buf);
 	if (strcmp(buf, "Bonjour.") != 0)
@@ -498,13 +499,7 @@ int		main(void)
 	count += launch_test_suite(load_memcpy,   "memcpy");
 	count += launch_test_suite(load_strcat,   "strcat");
 	count += launch_test_suite(load_strdup,   "strdup");
-	count += launch_test_suite(load_bzero,   "bzero");
+	count += launch_test_suite(load_bzero,    "bzero");
+	ft_puts("bonjour");
 	//test_strcat();
-	//test_10_million_chars_string();
-	//test_strlen_unalign_long_1();
-	//test_strlen_unalign_long_2();
-	//test_strlen_unalign_long_3();
-	//test_strlen_unalign_long_4();
-	//test_strlen_unalign_long_5();
-	//test_strlen_unalign_long_6();
 }
