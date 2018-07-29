@@ -31,6 +31,9 @@ int	ft_id(int);
 int	ft_puts(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
+ void *ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
+char *ft_strdup(const char *s1);
+char *ft_strcat(char *restrict s1, const char *restrict s2);
 size_t ft_strlen(const char *s);
 
 typedef struct			s_unit_test
@@ -111,13 +114,14 @@ int				exec_test(int (*f) (void))
 	return (print_result(father));
 }
 
-int				launch_tests(t_unit_test **testlist)
+int				launch_tests(t_unit_test **testlist, char *test_name)
 {
 	int				count;
 	t_unit_test		*tmp;
 
 	count = 0;
 	tmp = *testlist;
+	printf("TEST: %s\n", test_name);
 	while (tmp)
 	{
 		printf("    > %s : ", tmp->name);
@@ -149,13 +153,6 @@ mt_test_is(isprint)
 mt_test_is(toupper)
 mt_test_is(isdigit)
 mt_test_is(tolower)
-
-int	test_strdup()
-{
-	char *s1 = strdup("abc");
-	printf("%s\n", strcat(s1, "defasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
-	return (0);
-}
 
 t_unit_test	*load_isalpha()
 {
@@ -212,14 +209,6 @@ t_unit_test	*load_tolower()
 	return (testlist);
 }
 
-t_unit_test	*load_strdup()
-{
-	t_unit_test	*testlist = NULL;
-
-	load_test(&testlist, "strdup", &test_strdup);
-	return (testlist);
-}
-
 int		test_memset()
 {
 	return (memcmp(ft_memset(strdup("abcd"), 'z', 5), memset(strdup("abcd"), 'z', 5), 5));
@@ -260,8 +249,6 @@ t_unit_test	*load_memset()
 #define mt_test_strlen(test_name, tested_str) \
         int test_name() \
         {\
-			printf("ptr: %p\n", tested_str);\
-			printf("ft_strlen: %zu, strlen: %zu", ft_strlen(tested_str), strlen(tested_str)); \
 			if (ft_strlen(tested_str) != strlen(tested_str))\
 				return 1;\
 			return 0;\
@@ -271,13 +258,15 @@ mt_test_strlen(test_strlen_1, "chat");
 mt_test_strlen(test_strlen_2, "");
 mt_test_strlen(test_strlen_3, "aaa\0aaa");
 
+			/*
+			 * printf("ptr: %p\n", tested_str);\
+			 * printf("ft_strlen: %zu, strlen: %zu", ft_strlen(tested_str), strlen(tested_str)); \
+			 */
 #define mt_test_strlen_unalign(test_name, offset) \
         int test_name() \
         {\
 			char *abc = strdup("abcdef");\
 			char *tested_str = abc + offset;\
-			printf("ptr: %p\n", tested_str);\
-			printf("ft_strlen: %zu, strlen: %zu", ft_strlen(tested_str), strlen(tested_str)); \
 			if (ft_strlen(tested_str) != strlen(tested_str))\
 				return 1;\
 			return 0;\
@@ -294,10 +283,7 @@ mt_test_strlen_unalign(test_strlen_unalign_6, 6);
         {\
 			char *abc = strdup("\x1\x1\x1\x1\x1\x1\x1\x1\x1");\
 			char *tested_str = abc + offset;\
-			printf("ptr: %p\n", tested_str);\
-			printf("str: %s\n", tested_str);\
 			size_t len = ft_strlen(tested_str);\
-			printf("ft_strlen: %zu, strlen: %zu", len, strlen(tested_str)); \
 			if (len != strlen(tested_str))\
 				return 1;\
 			return 0;\
@@ -325,6 +311,29 @@ static int test_10_million_chars_string()
 		return 0;
 }
 
+static int unittest1()
+{
+	char	b1[100], b2[100];
+
+	memset(b1, 33, 100);
+	memset(b2, 63, 100);
+
+	ft_memcpy(b1, b2, 100);
+	if (!(memcmp(b1, b2, 100) == 0))
+		return 1;
+	if (!(ft_memcpy(b1, b2, 0) == b1))
+		return 1;
+	return 0;
+}
+
+t_unit_test	*load_memcpy()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "unittest1", &unittest1);
+	return (testlist);
+}
+
 t_unit_test	*load_strlen()
 {
 	t_unit_test	*testlist = NULL;
@@ -348,7 +357,72 @@ t_unit_test	*load_strlen()
 	return (testlist);
 }
 
-int	launch_test_suite(t_unit_test	*(*loader)(void))
+static int test_strcat()
+{
+	char	buf[9];
+
+	bzero(buf, 9);
+	ft_strcat(buf, "");
+	printf("str: |%s|\n", buf);
+	ft_strcat(buf, "Bon");
+	printf("str: |%s|\n", buf);
+	ft_strcat(buf, "j");
+	printf("str: |%s|\n", buf);
+	ft_strcat(buf, "our.");
+	printf("str: |%s|\n", buf);
+	ft_strcat(buf, "");
+	printf("str: |%s|\n", buf);
+	if (strcmp(buf, "Bonjour.") != 0)
+		return 1;
+	if (buf != ft_strcat(buf, ""))
+		return 1;
+	return 0;
+}
+
+t_unit_test	*load_strcat()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "test_strcat", &test_strcat);
+	return (testlist);
+}
+
+static int test_strdup_1()
+{
+	if(strcmp(ft_strdup("aaaaa"), "aaaaa") != 0)
+		return 1;
+	return 0;
+}
+
+static int test_strdup_2()
+{
+	if(strcmp(ft_strdup(""), "") != 0)
+		return 1;
+	return 0;
+}
+
+static int test_strdup_3()
+{
+	char *s1;
+	char *s2;
+
+	s1 = "aaa";
+	s2 = ft_strdup(s1);
+	if(s1 == s2)
+		return 1;
+	return 0;
+}
+t_unit_test	*load_strdup()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "strdup_1", &test_strdup_1);
+	load_test(&testlist, "strdup_2", &test_strdup_2);
+	load_test(&testlist, "strdup_3", &test_strdup_3);
+	return (testlist);
+}
+
+int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
 {
 	t_unit_test	*testlist;
 	int			valid_test;
@@ -356,9 +430,54 @@ int	launch_test_suite(t_unit_test	*(*loader)(void))
 
 	testlist = loader();
 	test_len = ft_unit_lst_len(testlist);
-	valid_test = launch_tests(&testlist);
-	printf("%d / %d tests checked\n\n", valid_test, test_len);
+	valid_test = launch_tests(&testlist, test_name);
+	printf("%d / %d tests checked\n-----------------------\n\n", valid_test, test_len);
 	return (valid_test == test_len);
+}
+
+static int test_only_bzero_first_x_chars()
+{
+	char	control[] = "123456789";
+	char	subject[] = "123456789";
+
+	bzero(control, 3);
+	ft_bzero(subject, 3);
+	return memcmp(subject, control, 10);
+}
+
+static int test_zero_case()
+{
+	char	control[] = "123456789";
+	char	subject[] = "123456789";
+
+	bzero(control, 0);
+	ft_bzero(subject, 0);
+	return memcmp(subject, control, 10);
+}
+
+
+static int simple_string()
+{
+	char	control[10];
+	char	subject[] = "123456789";
+
+	bzero(control, 10);
+	ft_bzero(subject, 10);
+	if (memcmp(control, subject, 10) != 0)
+		return 1;
+	subject[0] = 'a';
+	ft_bzero(subject, 0);
+	return (subject[0] != 'a');
+}
+
+t_unit_test	*load_bzero()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "test_only_bzero_first_x_chars", &test_only_bzero_first_x_chars);
+	load_test(&testlist, "test_zero_case", &test_zero_case);
+	load_test(&testlist, "simple_string", &simple_string);
+	return (testlist);
 }
 
 int		main(void)
@@ -367,16 +486,20 @@ int		main(void)
 
 	count = 0;
 	printf("---\n\n************************************\n**        libftASM test        **\n************************************\n");
-	count += launch_test_suite(load_strdup);
-	count += launch_test_suite(load_isalpha);
-	count += launch_test_suite(load_isdigit);
-	count += launch_test_suite(load_isalnum);
-	count += launch_test_suite(load_isascii);
-	count += launch_test_suite(load_isprint);
-	count += launch_test_suite(load_toupper);
-	count += launch_test_suite(load_tolower);
-	count += launch_test_suite(load_memset);
-	count += launch_test_suite(load_strlen);
+	count += launch_test_suite(load_isalpha,  "isalpha");
+	count += launch_test_suite(load_isdigit,  "isdigit");
+	count += launch_test_suite(load_isalnum,  "isalnum");
+	count += launch_test_suite(load_isascii,  "isascii");
+	count += launch_test_suite(load_isprint,  "isprint");
+	count += launch_test_suite(load_toupper,  "toupper");
+	count += launch_test_suite(load_tolower,  "tolower");
+	count += launch_test_suite(load_memset,   "memset");
+	count += launch_test_suite(load_strlen,   "strlen");
+	count += launch_test_suite(load_memcpy,   "memcpy");
+	count += launch_test_suite(load_strcat,   "strcat");
+	count += launch_test_suite(load_strdup,   "strdup");
+	count += launch_test_suite(load_bzero,   "bzero");
+	//test_strcat();
 	//test_10_million_chars_string();
 	//test_strlen_unalign_long_1();
 	//test_strlen_unalign_long_2();

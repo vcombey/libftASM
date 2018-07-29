@@ -1,4 +1,9 @@
 global _ft_memcpy
 
 _ft_memcpy:
-	ret
+		push rdi		; save pointer
+		cld
+		mov rcx, rdx	; already align
+		repnz movsb
+		pop rax
+		ret

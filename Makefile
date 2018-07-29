@@ -10,7 +10,7 @@ HEADER	= libft.h btree.h
 
 ifeq ($(DEBUG),yes)
 	CFLAGS = -std=c99 -fPIC -Wextra -Wall -Werror -g -O0 -fsanitize=address -I./$(INCDIR)
-	ASMFLAGS = -f macho64 -i $(INCDIR)
+	ASMFLAGS = -f macho64 -i $(INCDIR) -libc
 else
 	CFLAGS = -Ofast -std=c99 -fPIC -Wextra -Wall -Werror -I./$(INCDIR)
 	ASMFLAGS = -f macho64 -i $(INCDIR)
