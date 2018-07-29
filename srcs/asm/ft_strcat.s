@@ -4,12 +4,12 @@ global _ft_strcat
 extern _ft_strlen
 
 _ft_strcat:
-	push rsi
 	push rdi
+	push rsi
 	call _ft_strlen
 	mov r8, rax
-	pop rdi
-	mov rsi, rdi
+	pop rsi
+	mov rdi, rsi
 	call _ft_strlen
 	mov r9, rax
 	ret

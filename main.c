@@ -292,7 +292,7 @@ mt_test_strlen_unalign(test_strlen_unalign_6, 6);
 #define mt_test_strlen_unalign_long(test_name, offset) \
         int test_name() \
         {\
-			char *abc = strdup("1234567812345");\
+			char *abc = strdup("\x1\x1\x1\x1\x1\x1\x1\x1\x1");\
 			char *tested_str = abc + offset;\
 			printf("ptr: %p\n", tested_str);\
 			printf("str: %s\n", tested_str);\
@@ -367,18 +367,18 @@ int		main(void)
 
 	count = 0;
 	printf("---\n\n************************************\n**        libftASM test        **\n************************************\n");
-	//count += launch_test_suite(load_strdup);
-	//count += launch_test_suite(load_isalpha);
-	//count += launch_test_suite(load_isdigit);
-	//count += launch_test_suite(load_isalnum);
-	//count += launch_test_suite(load_isascii);
-	//count += launch_test_suite(load_isprint);
-	//count += launch_test_suite(load_toupper);
-	//count += launch_test_suite(load_tolower);
-	//count += launch_test_suite(load_memset);
-	//count += launch_test_suite(load_strlen);
+	count += launch_test_suite(load_strdup);
+	count += launch_test_suite(load_isalpha);
+	count += launch_test_suite(load_isdigit);
+	count += launch_test_suite(load_isalnum);
+	count += launch_test_suite(load_isascii);
+	count += launch_test_suite(load_isprint);
+	count += launch_test_suite(load_toupper);
+	count += launch_test_suite(load_tolower);
+	count += launch_test_suite(load_memset);
+	count += launch_test_suite(load_strlen);
 	//test_10_million_chars_string();
-	test_strlen_unalign_long_1();
+	//test_strlen_unalign_long_1();
 	//test_strlen_unalign_long_2();
 	//test_strlen_unalign_long_3();
 	//test_strlen_unalign_long_4();

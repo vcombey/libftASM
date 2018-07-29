@@ -8,9 +8,11 @@ _ft_strlen:
 	mov rcx, 0x8
 	and rdi, 0x7
 	sub rcx, rdi
-	and rcx, 0x7 	; rcx contains the number of bits to align
 	pop rdi
 	cld
+	cmp rcx, 0x8 	; already align
+	je .loop
+
 	repnz scasb
 	jz .found		; jump if found during alignement
 		
@@ -25,7 +27,7 @@ _ft_strlen:
 	and r10, r11
 	and r9, r10
 	cmp r9, 0x0
-	jg .find_zero_among_8
+	ja .find_zero_among_8 		;jump if above 0
 	add rdi, 0x8
 	jmp .loop
 
