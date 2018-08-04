@@ -35,6 +35,7 @@ void	*ft_memset(void *s, int c, size_t len);
 char *ft_strdup(const char *s1);
 char *ft_strcat(char *restrict s1, const char *restrict s2);
 size_t ft_strlen(const char *s);
+void ft_cat(int fd);
 
 typedef struct			s_unit_test
 {
@@ -481,8 +482,10 @@ t_unit_test	*load_bzero()
 	return (testlist);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
+	(void)ac;
+	(void)av;
 	size_t count;
 
 	count = 0;
@@ -502,4 +505,5 @@ int		main(void)
 	count += launch_test_suite(load_bzero,    "bzero");
 	ft_puts("bonjour");
 	//test_strcat();
+	return 0;
 }
