@@ -48,6 +48,9 @@ re: fclean all
 
 test: $(NAME) main.c $(OBJ)
 	$(CC) $(CFLAGS)  main.c libfts.a && ./a.out
+
+test_cat: $(NAME) cat.c $(OBJ)
+	$(CC) $(CFLAGS) cat.c libfts.a -o cat
 #ld hello_world.o -macosx_version_min 10.8 -lSystem && ./a.out
 help:
 	@echo
