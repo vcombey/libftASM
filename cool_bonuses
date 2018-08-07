@@ -1,0 +1,7 @@
+memcmp
+strcmp
+memchr
+strchr
+strstr
+strequ
+strclr
