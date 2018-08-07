@@ -11,10 +11,10 @@ accessed in a similar manner like this: R8 (qword), R8D (lower dword),
 R8W (lowest word), R8B (lowest byte MASM style, Intel style R8L). Note
 there is no R8H.
 
-  AL/AH, CL/CH, DL/DH, BL/BH, SPL, BPL, SIL, DIL, R8B-R15B 
-     AX, CX, DX, BX, SP, BP, SI, DI, R8W-R15W 
-     EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI, R8D-R15D 
-     RAX, RCX, RDX, RBX, RSP, RBP, RSI, RDI, R8-R15
+  AL/AH,   CL/CH,   DL/DH,  BL/BH,  SPL, BPL, SIL, DIL, R8B-R15B 
+     AX,    CX,     DX,     BX,     SP,  BP,  SI,  DI,  R8W-R15W 
+     EAX,   ECX,    EDX,    EBX,    ESP, EBP, ESI, EDI, R8D-R15D 
+     RAX,   RCX,    RDX,    RBX,    RSP, RBP, RSI, RDI, R8-R15
 
 F3 6C 	REP INS m8, DX 	Input (E)CX bytes from port DX into ES:[(E)DI].
 F3 6D 	REP INS m16, DX 	Input (E)CX words from port DX into ES:[(E)DI].
