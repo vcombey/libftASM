@@ -1,19 +1,19 @@
 global _ft_strlen
 
 section .text
+
 _ft_strlen:
-		xor rax, rax
 		mov r8, rdi		; save pointer
-		push rdi		; save pointer
+		mov r9, rdi		; save pointer
 		mov rcx, 0x8
-		and rdi, 0x7
-		sub rcx, rdi
-		pop rdi
+		and r9, 0x7
+		sub rcx, r9
 		cld
 
 		cmp rcx, 0x8 	; already align
 		je .loop
 
+		xor rax, rax	; want to find a \0
 		repnz scasb
 		jz .found		; jump if found during alignement
 		
