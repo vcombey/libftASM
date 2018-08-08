@@ -13,6 +13,5 @@ _ft_strcat:
 		pop rdi
 		add rdi, rax
 		call _ft_strcpy
-		pop rdi
-		mov rax, rdi
+		pop rax
 		ret

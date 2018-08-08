@@ -11,9 +11,11 @@ _ft_strdup:
 		call _ft_strlen
 		inc rax
 		push rax
+		push rax
 		mov rdi, rax
 		call _malloc
 		mov rdi, rax
+		pop rdx
 		pop rdx
 		pop rsi
 		call _ft_memcpy

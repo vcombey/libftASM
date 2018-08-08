@@ -28,12 +28,16 @@ int	ft_isascii(int);
 int	ft_toupper(int);
 int	ft_tolower(int);
 int	ft_id(int);
+int	ft_memcmp(const void *a, const void *b, size_t n);
+int	ft_strcmp(const char *a, const char *b);
 int	ft_puts(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
- void *ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 char *ft_strdup(const char *s1);
 char *ft_strcat(char *restrict s1, const char *restrict s2);
+char *ft_memchr(const void *s1, int c, size_t n);
+char *ft_strchr(const char *s1, int c);
 size_t ft_strlen(const char *s);
 void ft_cat(int fd);
 
@@ -424,19 +428,54 @@ t_unit_test	*load_strdup()
 	return (testlist);
 }
 
-int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
-{
-	t_unit_test	*testlist;
-	int			valid_test;
-	int			test_len;
+#define mt_test_memchr(test_name, tested_str, c, n)	\
+        int test_name() \
+        {\
+			if (ft_memchr(tested_str, c, n) != memchr(tested_str, c, n))	\
+				return 1;\
+			return 0;\
+        }
 
-	testlist = loader();
-	test_len = ft_unit_lst_len(testlist);
-	valid_test = launch_tests(&testlist, test_name);
-	printf("%d / %d tests checked\n-----------------------\n\n", valid_test, test_len);
-	return (valid_test == test_len);
+mt_test_memchr(test_memchr_1, "abcd", 'a', 1);
+mt_test_memchr(test_memchr_2, "abcd", 'a', 0);
+mt_test_memchr(test_memchr_3, "abcd", 'e', 5);
+mt_test_memchr(test_memchr_4, "abcd", 'd', 4);
+
+t_unit_test	*load_memchr()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "first_char", &test_memchr_1);
+	load_test(&testlist, "n_zero", &test_memchr_2);
+	load_test(&testlist, "not_found", &test_memchr_3);
+	load_test(&testlist, "last_char", &test_memchr_4);
+	return (testlist);
 }
 
+
+#define mt_test_strchr(test_name, tested_str, c)	\
+        int test_name() \
+        {\
+			if (ft_strchr(tested_str, c) != strchr(tested_str, c))	\
+				return 1;\
+			return 0;\
+        }
+
+mt_test_strchr(test_strchr_1, "abcd", 'a');
+mt_test_strchr(test_strchr_2, "abcd", 'a');
+mt_test_strchr(test_strchr_3, "abcd", 'e');
+mt_test_strchr(test_strchr_4, "abcd", 'd');
+
+t_unit_test	*load_strchr()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "first_char", &test_strchr_1);
+	load_test(&testlist, "n_zero", &test_strchr_2);
+	load_test(&testlist, "not_found", &test_strchr_3);
+	load_test(&testlist, "last_char", &test_strchr_4);
+	return (testlist);
+}
 static int test_only_bzero_first_x_chars()
 {
 	char	control[] = "123456789";
@@ -482,6 +521,81 @@ t_unit_test	*load_bzero()
 	return (testlist);
 }
 
+#define mt_test_memcmp(test_name, a, b, c)		\
+        int test_name() \
+        {\
+			if (ft_memcmp(a, b, c) != memcmp(a, b, c))	\
+				return 1;\
+			return 0;\
+        }
+
+mt_test_memcmp(test_memcmp_1, "chat", "dsads", 0);
+mt_test_memcmp(test_memcmp_2, "\x1", "\0", 1);
+mt_test_memcmp(test_memcmp_3, "12345a", "12345b", 6);
+mt_test_memcmp(test_memcmp_4, "12345a", "12345b", 5);
+mt_test_memcmp(test_memcmp_5, "12a456", "12b456", 5);
+
+int test_memcmp_6() 
+{
+	unsigned char s1[2] = "\0";
+	unsigned char s2[2] = "\0";
+	s1[0] = 200;
+	printf("%d, %d\n",ft_memcmp(s1, s2, 1), memcmp(s1, s2, 1));
+	if (ft_memcmp(s1, s2, 1) != memcmp(s1, s2,1))	
+		return 1;
+	return 0;
+}
+
+t_unit_test	*load_memcmp()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "cmp_0_char", &test_memcmp_1);
+	load_test(&testlist, "cmp_unsigned", &test_memcmp_2);
+	load_test(&testlist, "simple_string", &test_memcmp_3);
+	load_test(&testlist, "simple_string_equal", &test_memcmp_4);
+	load_test(&testlist, "simple_non_equal", &test_memcmp_5);
+	load_test(&testlist, "unsigned_char", &test_memcmp_6);
+	return (testlist);
+}
+
+#define mt_test_strcmp(test_name, a, b)			\
+	int test_name()								\
+	{											\
+		if (ft_strcmp(a, b) != strcmp(a, b))	\
+			return 1;							\
+		return 0;								\
+	}
+
+mt_test_strcmp(test_strcmp_2, "\x1", "\0");
+mt_test_strcmp(test_strcmp_3, "123456", "123456");
+mt_test_strcmp(test_strcmp_4, "12345a", "12345b");
+mt_test_strcmp(test_strcmp_5, "12a456", "12b456");
+
+t_unit_test	*load_strcmp()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "cmp_unsigned", &test_strcmp_2);
+	load_test(&testlist, "simple_string", &test_strcmp_3);
+	load_test(&testlist, "simple_string_equal", &test_strcmp_4);
+	load_test(&testlist, "simple_non_equal", &test_strcmp_5);
+	return (testlist);
+}
+
+int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
+{
+	t_unit_test	*testlist;
+	int			valid_test;
+	int			test_len;
+
+	testlist = loader();
+	test_len = ft_unit_lst_len(testlist);
+	valid_test = launch_tests(&testlist, test_name);
+	printf("%d / %d tests checked\n-----------------------\n\n", valid_test, test_len);
+	return (valid_test == test_len);
+}
+
 int		main(int ac, char **av)
 {
 	(void)ac;
@@ -503,6 +617,11 @@ int		main(int ac, char **av)
 	count += launch_test_suite(load_strcat,   "strcat");
 	count += launch_test_suite(load_strdup,   "strdup");
 	count += launch_test_suite(load_bzero,    "bzero");
+	count += launch_test_suite(load_memchr,    "memchr");
+	count += launch_test_suite(load_memcmp,    "memcmp");
+	count += launch_test_suite(load_strcmp,    "strcmp");
+	count += launch_test_suite(load_strchr,    "strchr");
+		test_memcmp_6();
 	ft_puts("bonjour");
 	//test_strcat();
 	return 0;
