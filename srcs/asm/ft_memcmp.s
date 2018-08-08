@@ -6,7 +6,9 @@ _ft_memcmp:
 		rep cmpsb
 		dec rsi
 		dec rdi
+		xor rax, rax
 		mov al, byte [rdi]	
+		xor rcx, rcx
 		mov cl, byte [rsi]
 		sub eax, ecx
 		ret

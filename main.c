@@ -30,6 +30,7 @@ int	ft_tolower(int);
 int	ft_id(int);
 int	ft_memcmp(const void *a, const void *b, size_t n);
 int	ft_strcmp(const char *a, const char *b);
+int	ft_strequ(const char *a, const char *b);
 int	ft_puts(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
@@ -583,6 +584,32 @@ t_unit_test	*load_strcmp()
 	return (testlist);
 }
 
+#define mt_test_strequ(test_name, a, b)			\
+	int test_name()								\
+	{											\
+		printf("%d %d",strcmp(a, b), ft_strequ(a, b));	\
+		if (strcmp(a, b) != 0 && ft_strequ(a, b) == 1)	\
+			return (1); \
+		if (strcmp(a, b) == 0 && ft_strequ(a, b) != 1)	\
+			return (1); \
+		return 0;								\
+	}
+
+mt_test_strequ(test_strequ_2, "\x1", "\0");
+mt_test_strequ(test_strequ_3, "123456", "123456");
+mt_test_strequ(test_strequ_4, "12345a", "12345b");
+mt_test_strequ(test_strequ_5, "12a456", "12b456");
+
+t_unit_test	*load_strequ()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "cmp_unsigned", &test_strequ_2);
+	load_test(&testlist, "simple_string", &test_strequ_3);
+	load_test(&testlist, "simple_string_equal", &test_strequ_4);
+	load_test(&testlist, "simple_non_equal", &test_strequ_5);
+	return (testlist);
+}
 int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
 {
 	t_unit_test	*testlist;
@@ -621,8 +648,8 @@ int		main(int ac, char **av)
 	count += launch_test_suite(load_memcmp,    "memcmp");
 	count += launch_test_suite(load_strcmp,    "strcmp");
 	count += launch_test_suite(load_strchr,    "strchr");
-		test_memcmp_6();
-	ft_puts("bonjour");
-	//test_strcat();
+	count += launch_test_suite(load_strequ,    "strequ");
+	//	test_memcmp_6();
+	//test_strequ_3();
 	return 0;
 }

@@ -16,7 +16,7 @@ else
 	ASMFLAGS = -f macho64 -i $(INCDIR)
 endif
 
-SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset ft_strcat ft_memcpy ft_strlen ft_strdup ft_cat ft_strcpy ft_memchr ft_memcmp ft_strcmp ft_strchr
+SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset ft_strcat ft_memcpy ft_strlen ft_strdup ft_cat ft_strcpy ft_memchr ft_memcmp ft_strcmp ft_strchr ft_strcmp ft_strequ
 
 ASM_DIR		= asm
 
@@ -45,7 +45,7 @@ fclean: clean
 re: fclean all
 
 test: $(NAME) main.c $(OBJ)
-	$(CC) $(CFLAGS)  main.c libfts.a && ./a.out
+	$(CC) $(CFLAGS) -fsanitize=address  main.c libfts.a && ./a.out
 
 test_cat: $(NAME) cat.c $(OBJ)
 	$(CC) $(CFLAGS) cat.c libfts.a -o cat

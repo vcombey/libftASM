@@ -1,7 +1,7 @@
 memcmp /
-strcmp
+strcmp /
 memchr /
 strchr /
 strstr
-strequ
+strequ /
 strclr
