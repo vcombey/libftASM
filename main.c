@@ -31,6 +31,7 @@ int	ft_id(int);
 int	ft_memcmp(const void *a, const void *b, size_t n);
 int	ft_strcmp(const char *a, const char *b);
 int	ft_strequ(const char *a, const char *b);
+void ft_strcld(const char *a);
 int	ft_puts(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
@@ -610,6 +611,25 @@ t_unit_test	*load_strequ()
 	load_test(&testlist, "simple_non_equal", &test_strequ_5);
 	return (testlist);
 }
+
+int test_strcld()								
+{											
+	char *s1 = "\0\0\0\0\0\0";
+	char s2[6] = "123456";
+	ft_strcld(s2);
+	if (memcmp(s1, s2, 6) != 0)
+		return (1); 
+	return 0;								
+}
+
+t_unit_test	*load_strcld()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "simple_test", &test_strcld);
+	return (testlist);
+}
+
 int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
 {
 	t_unit_test	*testlist;
@@ -649,6 +669,7 @@ int		main(int ac, char **av)
 	count += launch_test_suite(load_strcmp,    "strcmp");
 	count += launch_test_suite(load_strchr,    "strchr");
 	count += launch_test_suite(load_strequ,    "strequ");
+	count += launch_test_suite(load_strcld,    "strcld");
 	//	test_memcmp_6();
 	//test_strequ_3();
 	return 0;
