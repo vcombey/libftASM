@@ -4,7 +4,7 @@
 %define SYS_WRITE  (0x4 | SYS_CALL)
 %define SYS_READ  (0x3 | SYS_CALL)
 %define STDOUT_FILENO 0x1
-%define BUFFSIZE 0x1
+%define BUFFSIZE 0x100
 
 global _ft_cat
 
