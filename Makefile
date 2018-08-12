@@ -16,7 +16,7 @@ else
 	ASMFLAGS = -f macho64 -i $(INCDIR)
 endif
 
-SRC_ASM = ft_isalpha ft_id ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset ft_strcat ft_memcpy ft_strlen ft_strdup ft_cat ft_strcpy ft_memchr ft_memcmp ft_strcmp ft_strchr ft_strcmp ft_strequ ft_strcld
+SRC_ASM = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_puts ft_bzero ft_memset ft_strcat ft_memcpy ft_strlen ft_strdup ft_cat ft_strcpy ft_memchr ft_memcmp ft_strcmp ft_strchr ft_strcmp ft_strequ ft_strcld
 
 ASM_DIR		= asm
 

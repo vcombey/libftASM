@@ -18,5 +18,9 @@ _ft_strdup:
 		pop rdx
 		pop rdx
 		pop rsi
-		call _ft_memcpy
+		push rdi		; save pointer
+		cld
+		mov rcx, rdx	; already align
+		repnz movsb
+		pop rax
 		ret

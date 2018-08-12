@@ -12,3 +12,4 @@ _ft_strcpy:
 		pop rdi
 		mov rdx, rax
 		call _ft_memcpy
+		ret

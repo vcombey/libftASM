@@ -28,7 +28,6 @@ int	ft_isalnum(int);
 int	ft_isascii(int);
 int	ft_toupper(int);
 int	ft_tolower(int);
-int	ft_id(int);
 int	ft_memcmp(const void *a, const void *b, size_t n);
 int	ft_strcmp(const char *a, const char *b);
 int	ft_strequ(const char *a, const char *b);
@@ -37,6 +36,7 @@ int	ft_puts(const char *s);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t len);
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
+char	*ft_strcpy(char *restrict dst, const char *restrict src);
 char *ft_strdup(const char *s1);
 char *ft_strcat(char *restrict s1, const char *restrict s2);
 char *ft_memchr(const void *s1, int c, size_t n);
@@ -629,6 +629,30 @@ t_unit_test	*load_strcld()
 	return (testlist);
 }
 
+static int test_strcpy()
+{
+	char	b1[100], b2[100];
+
+	memset(b1, 33, 99);
+	memset(b2, 63, 99);
+	b1[99] = 0;
+	b2[99] = 0;
+	ft_strcpy(b1, b2);
+	if (!(memcmp(b1, b2, 100) == 0))
+		return 1;
+	if (!(ft_strcpy(b1, b2) == b1))
+		return 1;
+	return 0;
+}
+
+t_unit_test	*load_strcpy()
+{
+	t_unit_test	*testlist = NULL;
+
+	load_test(&testlist, "test_strcpy", &test_strcpy);
+	return (testlist);
+}
+
 int	launch_test_suite(t_unit_test	*(*loader)(void), char *test_name)
 {
 	t_unit_test	*testlist;
@@ -650,6 +674,7 @@ int		main(int ac, char **av)
 
 	count = 0;
 	printf("---\n\n************************************\n**        libftASM test        **\n************************************\n");
+	count += launch_test_suite(load_bzero,    "bzero");
 	count += launch_test_suite(load_isalpha,  "isalpha");
 	count += launch_test_suite(load_isdigit,  "isdigit");
 	count += launch_test_suite(load_isalnum,  "isalnum");
@@ -662,13 +687,13 @@ int		main(int ac, char **av)
 	count += launch_test_suite(load_memcpy,   "memcpy");
 	count += launch_test_suite(load_strcat,   "strcat");
 	count += launch_test_suite(load_strdup,   "strdup");
-	count += launch_test_suite(load_bzero,    "bzero");
 	count += launch_test_suite(load_memchr,    "memchr");
 	count += launch_test_suite(load_memcmp,    "memcmp");
 	count += launch_test_suite(load_strcmp,    "strcmp");
 	count += launch_test_suite(load_strchr,    "strchr");
 	count += launch_test_suite(load_strequ,    "strequ");
 	count += launch_test_suite(load_strcld,    "strcld");
+	count += launch_test_suite(load_strcpy,    "strcpy");
 	//	test_memcmp_6();
 	//test_strequ_3();
 	if (ac == 2) {
