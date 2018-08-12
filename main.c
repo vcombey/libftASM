@@ -674,7 +674,10 @@ int		main(int ac, char **av)
 	if (ac == 2) {
 		ft_cat(0);
 		ft_cat(open(__FILE__, O_RDONLY));
+		ft_cat(open(av[0], O_RDONLY));
 		ft_cat(-42);
+		ft_puts("bonjour bonjour");
+		ft_puts("");
 	}
 	return 0;
 }
