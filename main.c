@@ -14,6 +14,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 #include <string.h>
 #include <assert.h>
@@ -670,5 +671,10 @@ int		main(int ac, char **av)
 	count += launch_test_suite(load_strcld,    "strcld");
 	//	test_memcmp_6();
 	//test_strequ_3();
+	if (ac == 2) {
+		ft_cat(0);
+		ft_cat(open(__FILE__, O_RDONLY));
+		ft_cat(-42);
+	}
 	return 0;
 }
