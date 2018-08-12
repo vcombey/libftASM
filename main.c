@@ -542,7 +542,6 @@ int test_memcmp_6()
 	unsigned char s1[2] = "\0";
 	unsigned char s2[2] = "\0";
 	s1[0] = 200;
-	printf("%d, %d\n",ft_memcmp(s1, s2, 1), memcmp(s1, s2, 1));
 	if (ft_memcmp(s1, s2, 1) != memcmp(s1, s2,1))	
 		return 1;
 	return 0;
@@ -588,7 +587,6 @@ t_unit_test	*load_strcmp()
 #define mt_test_strequ(test_name, a, b)			\
 	int test_name()								\
 	{											\
-		printf("%d %d",strcmp(a, b), ft_strequ(a, b));	\
 		if (strcmp(a, b) != 0 && ft_strequ(a, b) == 1)	\
 			return (1); \
 		if (strcmp(a, b) == 0 && ft_strequ(a, b) != 1)	\
